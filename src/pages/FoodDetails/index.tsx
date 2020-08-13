@@ -143,7 +143,18 @@ const FoodDetails: React.FC = () => {
   }, [extras, food, foodQuantity]);
 
   async function handleFinishOrder(): Promise<void> {
-    // Finish the order and save on the API
+    const order = {
+      ...food,
+      extras: extras,
+    };
+
+    delete order.id;
+    delete order.image_url;
+    delete order.formattedPrice;
+
+    await api.post('orders', {
+      ...order,
+    });
   }
 
   const favoriteIconName = useMemo(
